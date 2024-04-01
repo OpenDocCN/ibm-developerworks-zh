@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+	<link rel="preload" href="https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/style.css?cb=100" as="style" onload="this.onload=null;this.rel='stylesheet'">
+	<noscript><link rel="stylesheet" href="https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/style.css?cb=100"></noscript>
+	<script>
+		/*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/
+(function( w ){
+	"use strict";
+	// rel=preload support test
+	if( !w.loadCSS ){
+		w.loadCSS = function(){};
+	}
+	// define on the loadCSS obj
+	var rp = loadCSS.relpreload = {};
+	// rel=preload feature support test
+	// runs once and returns a function for compat purposes
+	rp.support = (function(){
+		var ret;
+		try {
+			ret = w.document.createElement( "link" ).relList.supports( "preload" );
+		} catch (e) {
+			ret = false;
+		}
+		return function(){
+			return ret;
+		};
+	})();
+
+	// if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+	// then change that media back to its intended value on load
+	rp.bindMediaToggle = function( link ){
+		// remember existing media attr for ultimate state, or default to 'all'
+		var finalMedia = link.media || "all";
+
+		function enableStylesheet(){
+			// unbind listeners
+			if( link.addEventListener ){
+				link.removeEventListener( "load", enableStylesheet );
+			} else if( link.attachEvent ){
+				link.detachEvent( "onload", enableStylesheet );
+			}
+			link.setAttribute( "onload", null );
+			link.media = finalMedia;
+		}
+
+		// bind load handlers to enable media
+		if( link.addEventListener ){
+			link.addEventListener( "load", enableStylesheet );
+		} else if( link.attachEvent ){
+			link.attachEvent( "onload", enableStylesheet );
+		}
+
+		// Set rel and non-applicable media type to start an async request
+		// note: timeout allows this to happen async to let rendering continue in IE
+		setTimeout(function(){
+			link.rel = "stylesheet";
+			link.media = "only x";
+		});
+		// also enable media after 3 seconds,
+		// which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+		setTimeout( enableStylesheet, 3000 );
+	};
+
+	// loop through link elements in DOM
+	rp.poly = function(){
+		// double check this to prevent external calls from running
+		if( rp.support() ){
+			return;
+		}
+		var links = w.document.getElementsByTagName( "link" );
+		for( var i = 0; i < links.length; i++ ){
+			var link = links[ i ];
+			// qualify links to those with rel=preload and as=style attrs
+			if( link.rel === "preload" && link.getAttribute( "as" ) === "style" && !link.getAttribute( "data-loadcss" ) ){
+				// prevent rerunning on link
+				link.setAttribute( "data-loadcss", true );
+				// bind listeners to toggle media back
+				rp.bindMediaToggle( link );
+			}
+		}
+	};
+
+	// if unsupported, run the polyfill
+	if( !rp.support() ){
+		// run once at least
+		rp.poly();
+
+		// rerun poly on an interval until onload
+		var run = w.setInterval( rp.poly, 500 );
+		if( w.addEventListener ){
+			w.addEventListener( "load", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		} else if( w.attachEvent ){
+			w.attachEvent( "onload", function(){
+				rp.poly();
+				w.clearInterval( run );
+			} );
+		}
+	}
+
+
+	// commonjs
+	if( typeof exports !== "undefined" ){
+		exports.loadCSS = loadCSS;
+	}
+	else {
+		w.loadCSS = loadCSS;
+	}
+}( typeof global !== "undefined" ? global : this ) );
+	</script>
+	<title>Page not found &#8211; IBM Developer</title>
+<link rel='dns-prefetch' href='//1.www.s81c.com' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="IBM Developer &raquo; Feed" href="https://developer.ibm.com/zh/feed/" />
+<link rel="alternate" type="application/rss+xml" title="IBM Developer &raquo; Comments Feed" href="https://developer.ibm.com/zh/comments/feed/" />
+    <link rel="canonical" href="" />
+        <!-- <meta name="madeupmeta" content="" /> -->
+    <meta name="description" content="" />
+    <meta name="keywords" content="">
+
+    <!-- if condition here for og  og_meta -->
+          <meta property="og:title" content="" />
+      <meta property="og:description" content="" />
+      <meta property="og:type" content="" />
+      <meta property="og:site_name" content="IBM Developer" />
+      <meta property="og:url" content="" />
+      <meta property="og:image" content="https://s3.us.cloud-object-storage.appdomain.cloud/ibmdevwp/icons/social/social.jpg"/>
+        <!-- if condition here for twitter twitter_meta -->
+    <meta property="twitter:account_id" content="16362921" />
+
+    <meta name="twitter:card" content="summary">      <meta name="twitter:url" content="">
+      <meta name="twitter:title" content="">
+      <meta name="twitter:description" content="">
+      <meta name="twitter:image" content="https://s3.us.cloud-object-storage.appdomain.cloud/ibmdevwp/icons/social/social.jpg">
+      <meta property="twitter:image:src" content="https://s3.us.cloud-object-storage.appdomain.cloud/ibmdevwp/icons/social/social.jpg" />
+      <meta name="twitter:site" content="https://developer.ibm.com">
+      <meta name="twitter:creator" content="@ibmdeveloper">
+    
+    <meta name="ahrefs-site-verification" content="94fa8aa62b043c70442b349844ee10902416702fc2728b6a378a00d49ecc61d7">
+
+    <!-- BEGIN: Use this section to set page specific variables for the Page Tag -->
+  	<script language="JavaScript">var NTPT_PGEXTRA="ibmCmaId=&ibmContentAreas=";</script>
+  	<!--END -->
+    <script>
+  		digitalData = {
+  				"page": {
+  					"category": {
+  						"primaryCategory": "SOFDCACLZZ"
+  					},
+  					"pageInfo": {
+  						"effectiveDate": "",
+  						"language": "en",
+  						"publishDate": "",
+  						"expiryDate": "",
+  						"publisher": "IBM Corporation",
+  						"version": "v18",
+  						"ibm": {
+  							"contentDelivery": "IBM Developer template",
+  							"contentProducer": "IBM Developer",
+  							"country": "ZZ",
+                "contentArea": "",
+  							"owner": "developerWorks Content/Raleigh/IBM",
+  							"siteID": "DWNEXT",
+  							"subject": "ZZ000",
+  							"type": "",
+  							"contentId": "",
+  						},
+  						"keywords": "",
+  						"description": ""
+  					}
+  				}
+  			};
+
+        window._analytics = {
+          "coremetrics": false,
+          "optimizely": false,
+          "googleAddServices": false,
+          "addRoll": false,
+          "intercom": false,
+          "fullStory": false,
+          "hotjar": false,
+          "tealeaf": false,
+          "nps": true,
+          "segment_key": 'HU3dbkAG5wE0F1IkRf9S1RexlAqo3jby'
+        };
+  	</script>
+  	<!-- Segment meta tag -->
+  	<meta name="segment" property="developerWorks (developerWorks)" productTitle="developerWorks" value="Home English (developerWorks)"/>
+
+
+    		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/13.0.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/developer.ibm.com\/zh\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.6.1"}};
+			!function(e,a,t){var n,r,o,i=a.createElement("canvas"),p=i.getContext&&i.getContext("2d");function s(e,t){var a=String.fromCharCode;p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,e),0,0);e=i.toDataURL();return p.clearRect(0,0,i.width,i.height),p.fillText(a.apply(this,t),0,0),e===i.toDataURL()}function c(e){var t=a.createElement("script");t.src=e,t.defer=t.type="text/javascript",a.getElementsByTagName("head")[0].appendChild(t)}for(o=Array("flag","emoji"),t.supports={everything:!0,everythingExceptFlag:!0},r=0;r<o.length;r++)t.supports[o[r]]=function(e){if(!p||!p.fillText)return!1;switch(p.textBaseline="top",p.font="600 32px Arial",e){case"flag":return s([127987,65039,8205,9895,65039],[127987,65039,8203,9895,65039])?!1:!s([55356,56826,55356,56819],[55356,56826,8203,55356,56819])&&!s([55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447],[55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447]);case"emoji":return!s([55357,56424,8205,55356,57212],[55357,56424,8203,55356,57212])}return!1}(o[r]),t.supports.everything=t.supports.everything&&t.supports[o[r]],"flag"!==o[r]&&(t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&t.supports[o[r]]);t.supports.everythingExceptFlag=t.supports.everythingExceptFlag&&!t.supports.flag,t.DOMReady=!1,t.readyCallback=function(){t.DOMReady=!0},t.supports.everything||(n=function(){t.readyCallback()},a.addEventListener?(a.addEventListener("DOMContentLoaded",n,!1),e.addEventListener("load",n,!1)):(e.attachEvent("onload",n),a.attachEvent("onreadystatechange",function(){"complete"===a.readyState&&t.readyCallback()})),(n=t.source||{}).concatemoji?c(n.concatemoji):n.wpemoji&&n.twemoji&&(c(n.twemoji),c(n.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+	<script type='text/javascript' src='https://developer.ibm.com/zh/wp-includes/js/jquery/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
+<script type='text/javascript' src='https://developer.ibm.com/zh/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+<script type='text/javascript' id='authLink-script-js-extra'>
+/* <![CDATA[ */
+var authLinkAction = {"ajax_url":"https:\/\/developer.ibm.com\/zh\/wp-admin\/admin-ajax.php","nonce":"576ae097b5"};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://developer.ibm.com/zh/site-content/plugins/w3-ibm-id-auth/includes/../js/authPageAccess.js?ver=5.6.1' id='authLink-script-js'></script>
+<script defer type='text/javascript' src='https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/js/ibmcode.js?ver=20151217' id='code-utils-defer-js'></script>
+<script async type='text/javascript' src='https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/js/carbon-components.min.js?cb=123&#038;ver=5.6.1' id='carbon-components-async-js'></script>
+<script async type='text/javascript' src='//1.www.s81c.com/common/stats/ida_stats.js' id='coremetrics-async-js'></script>
+<link rel="https://api.w.org/" href="https://developer.ibm.com/zh/developerapi/" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://developer.ibm.com/zh/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://developer.ibm.com/zh/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 5.6.1" />
+<link rel="icon" href="https://developer.ibm.com/zh/site-content/uploads/2018/12/bee_128.png" sizes="32x32" />
+<link rel="icon" href="https://developer.ibm.com/zh/site-content/uploads/2018/12/bee_128.png" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://developer.ibm.com/zh/site-content/uploads/2018/12/bee_128.png" />
+<meta name="msapplication-TileImage" content="https://developer.ibm.com/zh/site-content/uploads/2018/12/bee_128.png" />
+</head>
+<body id="ibm-com" data-loggedin="" data-nls="zh" data-envt="production" class="error404 no-fixed-menu no-sidebar nosb">
+		<div class="bx--header--website-wrap">
+  <div class="code_content__wrap">
+
+    <header aria-label="IBM Platform Name" class="bx--header" role="banner">
+      <a class="bx--skip-to-content" href="#main-content" tabindex="0">跳到主要内容</a>
+      <button aria-label="Open menu" id="developer-burger" class="bx--header__action--menu bx--header__action bx--header__menu-trigger bx--header__menu-toggle" title="Open menu" type="button">
+        <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" style="will-change: transform;">
+          <path d="M2 14.8h16V16H2zm0-3.6h16v1.2H2zm0-3.6h16v1.2H2zM2 4h16v1.2H2z"></path>
+        </svg>
+      </button>
+      <a class="bx--header__name-old" href="https://developer.ibm.com/zh"><span class="bx--header__name--prefix">IBM</span>&nbsp;Developer</a>
+      <div class="bx--header__name">
+        <a class="bx--header__ibm" href="//www.ibm.com/cn-zh">
+          <svg class="Footer-module--logo--3otJM" width="47" height="30" viewBox="0 -10 85 35" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><path d="M0 32h15.689v-2.038H0zM0 27.721h15.689v-2.038H0zM4.483 23.442h6.724v-2.037H4.483zM4.483 19.164h6.724v-2.038H4.483zM4.483 14.885h6.724v-2.037H4.483zM4.482 10.606h6.724V8.568H4.482zM0 6.327h15.689V4.29H0zM0 2.049h15.689V.011H0zM17.93 29.963V32h16.504a8.521 8.521 0 0 0 5.54-2.037H17.93zM17.93 25.683v2.038h23.914a8.535 8.535 0 0 0 .85-2.038H17.93zM22.412 23.442h6.724v-2.037h-6.724zM40.124 17.126H22.412v2.038H41.77a8.62 8.62 0 0 0-1.645-2.038M22.413 12.848v2.036h17.786a8.612 8.612 0 0 0 1.644-2.037h-19.43zM42.693 6.327a8.447 8.447 0 0 0-.85-2.037H17.93v2.037h24.763zM39.974 2.049a8.521 8.521 0 0 0-5.54-2.037H17.93v2.037h22.044zM22.412 10.606h6.724V8.568h-6.724zM35.453 10.606h7.29a8.603 8.603 0 0 0 .248-2.038h-7.538v2.038zM35.453 21.405v2.037h7.538c0-.703-.09-1.384-.248-2.037h-7.29zM57.457 0H44.825v2.038h13.34zM44.826 32h11.21v-2.038h-11.21zM44.826 27.72h11.21v-2.038h-11.21zM49.309 23.439h6.727v-2.038h-6.727zM49.309 19.159h6.727v-2.038h-6.727zM69.488 32h11.21v-2.038h-11.21zM69.488 27.72h11.21v-2.038h-11.21zM69.488 23.439h6.726v-2.038h-6.726zM69.487 19.159h6.726v-2.038h-6.726zM69.488 14.879h6.726V12.84H63.606l-.707 2.038h5.903l.686-1.94zM61.916 12.84H49.31v2.039h6.726v-1.94l.686 1.94h5.903zM76.213 8.56H65.091l-.707 2.038h11.83zM68.06 0l-.706 2.038h13.344V0zM62.757 32l.72-2.038h-1.432zM61.254 27.72h3.015l.72-2.038h-4.455zM59.743 23.44h6.037l.72-2.039h-7.476zM58.232 19.159h9.06l.719-2.038h-10.5zM49.309 10.598h11.83l-.707-2.038H49.309zM65.868 6.318h14.83V4.28H66.576zM58.947 4.28H44.826v2.038h14.828z"></path></g></svg>
+        </a>
+        <a href="https://developer.ibm.com/zh" class="bx--header__ibmdeveloper">
+          IBM <b>Developer</b>        </a>
+      </div>
+
+      <nav aria-label="IBM [Platform]" class="bx--header__nav">
+        <ul class="bx--header__menu-bar" role="menubar"><li id='主题' class=' menu-item menu-item-type-custom menu-item-object-custom menu-item menu-item-type-custom menu-item-object-custom menu-item-has-mega'><a  aria-haspopup="menu" aria-expanded="false" role="menuitem" class="bx--header__menu-item bx--header__menu-title" href="/zh/technologies/">主题<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" class="bx--header__menu-arrow"><path d="M5 6L0 1 .7.3 5 4.6 9.3.3l.7.7z"></path></svg></a><div class="mega-menu bx--header__menu sub-menu" role="menu"><div class="mega-menu-inner"><div class="code_content__wrap">
+<ul>
+ 	<li><h4>技术领域</h4></li>
+ 	<li><a href="/zh/technologies/analytics/">分析</a></li>
+ 	<li><a href="/zh/technologies/artificial-intelligence/">人工智能</a></li>
+ 	<li><a href="/zh/technologies/blockchain/">区块链</a></li>
+ 	<li><a href="/zh/technologies/iot/">IoT</a></li>
+ 	<li><a href="/zh/technologies/">查看所有</a></li>
+<br />
+<br />
+<li><h4>语言，框架和运行时</h4></li>
+ 	<li><a href="/zh/languages/java/">Java</a></li>
+ 	<li><a href="/zh/languages/php/">PHP</a></li>
+ 	<li><a href="/zh/languages/python/">Python</a></li>
+ 	<li><a href="/zh/languages/">查看所有</a></li>
+</ul>
+<ul>
+	<li><h4>开发实践</h4></li>
+	<li><a href="/zh/devpractices/api/">API 管理</a></li>
+ 	<li><a href="/zh/devpractices/devops/">DevOps</a></li>
+ 	<li><a href="/zh/devpractices/">查看所有</a></li>
+<br />
+<br />
+ 	<li>
+<h4>行业领域</h4>
+</li>
+ 	<li><a href="/zh/industries/gaming/">游戏</a></li>
+ 	<li><a href="/zh/industries/finance/">金融</a></li>
+ 	<li><a href="/zh/industries/retail/">零售</a></li>
+ 	<li><a href="/zh/industries/">查看所有</a></li>
+</ul>
+<ul>
+ 	<li>
+<h4>架构 & 部署模式</h4>
+</li>
+ 	<li><a href="/zh/depmodels/cloud/">云部署</a></li>
+ 	<!-- <li><a href="/zh/depmodels/hybrid/">混合云部署</a></li> -->
+ 	<li><a href="/zh/depmodels/edge-computing/">边缘计算</a></li>
+ 	<li><a href="/zh/depmodels/on-prem/">本地部署</a></li>
+ 	<li><a href="/zh/depmodels/">查看所有</a></li>
+</ul>
+<!--
+<ul>
+ 	<li>
+<h4>解决方案</h4>
+</li>
+ 	<li><a href="/zh/solutions/ai-development/">Artificial Intelligence</a></li>
+ 	<li><a href="/zh/solutions/blockchain-app-development/">Blockchain</a></li>
+ 	<li><a href="/zh/solutions/container-orchestration-and-deployment/">Containers & Microservices</a></li>
+ 	<li><a href="/zh/solutions/mobile-app-development/">Mobile Development</a></li>
+</ul>
+--></div></div></div></li>
+<li id='产品与服务' class=' menu-item menu-item-type-custom menu-item-object-custom menu-item menu-item-type-custom menu-item-object-custom menu-item-has-mega'><a  aria-haspopup="menu" aria-expanded="false" role="menuitem" class="bx--header__menu-item bx--header__menu-title" href="/zh/components/">产品与服务<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" class="bx--header__menu-arrow"><path d="M5 6L0 1 .7.3 5 4.6 9.3.3l.7.7z"></path></svg></a><div class="mega-menu bx--header__menu sub-menu" role="menu"><div class="mega-menu-inner"><div class="code_content__wrap"><ul>
+  <li><h4>开放源码</h4></li>
+  <li><a href="/zh/components/kubernetes/">Kubernetes</a></li>
+  <li><a href="/zh/components/node-red/">Node-RED</a></li>
+  <li><a href="/zh/components/istio/">Istio</a></li>
+  <li><a href="/zh/components/tensorflow/">TensorFlow</a></li>
+  <li><a href="/zh/components/open-liberty/">Open Liberty</a></li>
+  <li><a href="/zh/components/">查看所有</a></li>
+</ul>
+<ul>
+  <li><h4>IBM 产品与服务</h4></li>
+  <li><a href="/zh/components/cloud-pak-for-applications/">IBM Cloud Pak for Applications</a></li>
+  <li><a href="/zh/components/cloud-pak-for-data/">IBM Cloud Pak for Data</a></li>
+  <li><a href="/zh/components/redhat-openshift-ibm-cloud/">Red Hat OpenShift on IBM Cloud</a></li>
+  <li><a href="/zh/components/watson-assistant/">Watson Assistant</a></li>
+  <li><a href="/zh/components/ibmz/">IBM Z</a></li>
+  <li><a href="/zh/components/">查看所有</a></li>
+</ul></div></div></div></li>
+<li id='社区' class=' menu-item menu-item-type-custom menu-item-object-custom menu-item menu-item-type-custom menu-item-object-custom menu-item-has-mega'><a  aria-haspopup="menu" aria-expanded="false" role="menuitem" class="bx--header__menu-item bx--header__menu-title" href="/zh/community/">社区<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" class="bx--header__menu-arrow"><path d="M5 6L0 1 .7.3 5 4.6 9.3.3l.7.7z"></path></svg></a><div class="mega-menu bx--header__menu sub-menu" role="menu"><div class="mega-menu-inner"><div class="code_content__wrap"><ul>
+  <li><a href="/zh/community/">首页</a></li> 
+  <li><a href="/zh/blogs/">博客</a></li>  
+  <li><a href="/zh/videos/">视频</a></li>  
+  <li><a href="/zh/newsletters/">时事通讯</a></li>  
+  <!-- <li><a href="https://ibmcoders.influitive.com">活动（待定）</a></li> -->
+</ul>
+
+<!-- <ul>
+<li><h4>马上参加</h4></li>
+  <li><a href="https://developer.ibm.com/cn/callforcode/">Call for Code 全球挑战赛</a></li> 
+</ul> -->
+</div></div></div></li>
+<li id='关于_ibm_开源' class=' menu-item menu-item-type-custom menu-item-object-custom menu-item menu-item-type-custom menu-item-object-custom menu-item-has-mega'><a  aria-haspopup="menu" aria-expanded="false" role="menuitem" class="bx--header__menu-item bx--header__menu-title" href="/zh/open/">关于 IBM 开源<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true" class="bx--header__menu-arrow"><path d="M5 6L0 1 .7.3 5 4.6 9.3.3l.7.7z"></path></svg></a><div class="mega-menu bx--header__menu sub-menu" role="menu"><div class="mega-menu-inner"><div class="code_content__wrap"><ul>
+ <li><a href="/zh/open/">首页</a></li>  
+ <li><a href="/zh/open/code/">代码</a></li>  
+ <li><a href="/zh/open/community/">社区</a></li>  
+ <li><a href="/zh/open/culture/">开放企业</a></li> 
+ <li><a href="/zh/collections/open-stories/">开源故事</a></li> 
+ <li><a href="/zh/exchanges/models/">Model Asset eXchange</a></li>
+ <li><a href="/zh/exchanges/data/">Data Asset eXchange</a></li> 
+</ul>
+
+<ul>
+ <li><h4>在线讲座</h4></li>
+  <li><a href="/zh/collections/ibm-cn-os-academy-seminars/">开源技术 * IBM 微讲堂</a></li> 
+</ul></div></div></div></li>
+</ul>      </nav>
+      <div class="bx--header__global">
+        <div id="header-search-module" class="GlobalSearch-module--container GlobalSearch-module--hidden" role="search">
+          <label for="search-input" id="search-label" class="GlobalSearch-module--label">Search</label>
+          <form action="https://developer.ibm.com/zh" method="GET" class="GlobalSearch-module--inputWrapper" role="combobox" aria-owns="search-menu" aria-haspopup="menu" aria-expanded="false">
+            <button tabindex="0" class="GlobalSearch-module--searchButton GlobalSearch-module--search-button--search" type="button" aria-label="Open search">
+              <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change:transform" description="Open search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M30 28.59L22.45 21A11 11 0 1 0 21 22.45L28.59 30zM5 14a9 9 0 1 1 9 9 9 9 0 0 1-9-9z"></path>
+              </svg>
+            </button>
+                            <input type="text" autocomplete="off" tabindex="-1" aria-autocomplete="list" aria-controls="search-menu" aria-activedescendant="menu-item-0" class="GlobalSearch-module--input GlobalSearch-module--hidden" id="search-input-header" placeholder="搜索 IBM Developer" value="" name="s">
+            
+            <button tabindex="-1" class="GlobalSearch-module--searchButton GlobalSearch-module--search-button--close GlobalSearch-module--hidden" type="button" aria-label="Clear search">
+              <svg focusable="false" preserveAspectRatio="xMidYMid meet" style="will-change:transform" description="Clear search" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4l6.6 6.6L8 22.6 9.4 24l6.6-6.6 6.6 6.6 1.4-1.4-6.6-6.6L24 9.4z"></path>
+              </svg>
+            </button>
+          </form>
+          <ul aria-labelledby="search-label" role="menu" id="search-menu" class="GlobalSearch-module--list GlobalSearch-module--hidden"></ul>
+        </div>
+        <div id="header-login-module" aria-expanded="false" class="GlobalLogin-module--container GlobalLogin-module--hidden" role="login">
+                      <button aria-label="Open menu" class="bx--header__action--login bx--header__action" title="Open menu" type="button">
+              <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;">
+                <path d="M16 2a14 14 0 1 0 14 14A14 14 0 0 0 16 2zm-6 24.38v-2A3.22 3.22 0 0 1 13 21h6a3.22 3.22 0 0 1 3 3.39v2a11.92 11.92 0 0 1-12 0zm14-1.46v-.61A5.21 5.21 0 0 0 19 19h-6a5.2 5.2 0 0 0-5 5.31v.59a12 12 0 1 1 16 0z"></path><path d="M16 7a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3z"></path>
+              </svg>
+            </button>
+            <ul id="ibm-signin-minimenu-container" role="menu" aria-label="Profile" class="bx--header__submenu">
+              <li class="menu-item"><a class="bx--header__menu-item" role="menuitem" href="/profile">My Dashboard</a></li>
+							<li class="menu-item"><a class="bx--header__menu-item" role="menuitem" href="https://myibm.ibm.com/?lnk=mmi" tabindex="0">我的 IBM</a></li>
+							<li class="menu-item"><a id="bx--header-signinout" class="bx--header__menu-item" role="menuitem" href="https://developer.ibm.com/sso/login?d=https%3A%2F%2Fdeveloper.ibm.com%2Fzh%2Fimages%2FRestage-Cloud-Foundry-App.png&lang=zh" tabindex="-1">登录</a></li>
+						</ul>
+                  </div>
+      </div>
+    </header>
+  </div>
+</div>
+<div class="side-nav-click-to-close side-nav-click-to-close__closed" id="code--side-nav-cover"></div>
+<!-- Navigation wrapper for accessibility -->
+<nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--expanded bx--side-nav--website bx--side-nav--website--dark bx--side-nav--ux" aria-label="Side navigation" id="code--side-nav-old">
+<!--nav class="bx--side-nav__navigation bx--side-nav bx--side-nav--ux bx--side-nav--website--dark" role="navigation" aria-label="Navigation" id="code--side-nav"-->
+  <!-- <header class="bx--side-nav__header"></header> -->
+  <!-- Renders all of our navigation items -->
+  <ul class="bx--side-nav__items" id="developerNavTriggersMobile"><li data-level="0" class='bx--side-nav__item'><button aria-haspopup="true" aria-expanded="false" class="bx--side-nav__submenu" type="button">
+              <span class="bx--side-nav__submenu-title">首页</span>
+              <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"></path></svg>
+              </div>
+            </button>
+<ul class="bx--side-nav__menu" role="menu">
+<li data-level="1" class='bx--side-nav__menu-item'><button aria-haspopup="true" aria-expanded="false" class="bx--side-nav__submenu" type="button">
+              <span class="bx--side-nav__submenu-title">主题</span>
+              <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"></path></svg>
+              </div>
+            </button>
+	<ul class="bx--side-nav__menu" role="menu">
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/technologies/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">技术领域</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/languages/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">语言，框架和运行时</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/devpractices/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">开发实践</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/industries/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">行业领域</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/depmodels/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">部署模式</span></a></li>
+	</ul>
+</li>
+<li data-level="1" class='bx--side-nav__menu-item'><button aria-haspopup="true" aria-expanded="false" class="bx--side-nav__submenu" type="button">
+              <span class="bx--side-nav__submenu-title">产品与服务</span>
+              <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"></path></svg>
+              </div>
+            </button>
+	<ul class="bx--side-nav__menu" role="menu">
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/components/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">开放源码</span></a></li>
+	</ul>
+</li>
+<li data-level="1" class='bx--side-nav__menu-item'><button aria-haspopup="true" aria-expanded="false" class="bx--side-nav__submenu" type="button">
+              <span class="bx--side-nav__submenu-title">社区</span>
+              <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"></path></svg>
+              </div>
+            </button>
+	<ul class="bx--side-nav__menu" role="menu">
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/community/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">首页</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/blogs/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">博客</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/videos/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">视频</span></a></li>
+	</ul>
+</li>
+<li data-level="1" class='bx--side-nav__menu-item'><button aria-haspopup="true" aria-expanded="false" class="bx--side-nav__submenu" type="button">
+              <span class="bx--side-nav__submenu-title">关于 IBM 开源</span>
+              <div class="bx--side-nav__icon bx--side-nav__icon--small bx--side-nav__submenu-chevron">
+                <svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"></path></svg>
+              </div>
+            </button>
+	<ul class="bx--side-nav__menu" role="menu">
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/open/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">首页</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/open/code/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">代码</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/exchanges/models/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">Model Asset eXchange</span></a></li>
+<li data-level="2" class='bx--side-nav__menu-item'><a href="/zh/exchanges/data/" class="bx--side-nav__link" role="menuitem"><span class="bx--side-nav__link-text">Data Asset eXchange</span></a></li>
+	</ul>
+</li>
+</ul>
+</li>
+<hr class="bx--side-nav__divider">
+</ul>  <!-- Renders the button to collapse or expand the side nav -->
+  <!-- <footer class="bx--side-nav__footer"></footer> -->
+</nav>
+
+	<!-- totally new layout -->
+<div class="ibm-developer" style="display:none;">
+  <div class="bx--grid">
+    <div class="bx--row">
+      <div class="bx--col-lg-12">max-content width</div>
+      <div class="bx--col-lg-12">developer.ibm.com</div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- begin new layout -->
+<div id="content" class="container nosb">
+    <div class="page_content">
+    <div class="page_content_wrap">
+<style>
+	.container{
+		min-height: 0;
+	}
+</style>
+
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main">
+
+			<section class="error-404 not-found wp-content">
+			<div class="error-404-hero">
+				<div class="bx--grid">
+					<div class="bx--row">
+						<div class="bx--offset-lg-2 bx--col-lg-8 bx--offset-md-1 bx--col-md-6">
+							<img src="https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/img/ibm-logo-404.png" />
+							<h2>很抱歉，我们找不到您要查找的页面...</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+				<div class="bx--grid">
+					<div class="bx--row">
+						<div class="bx--offset-lg-2 bx--col-lg-8 bx--offset-md-1 bx--col-md-6">
+
+
+							<p>您要查找的页面在 IBM Developer 站点上不存在。 这通常是由于 URL 中的错字所致。 如果您是通过书签访问此页面的，请使用以下资源查找您所需的页面，并更新您的书签。</p>
+							<ul>
+								<li>IBM Developer 搜索（此页面右上角的放大镜图标）</li>
+                 <li><a href="https://developer.ibm.com/zh/">IBM Developer 首页</a></li>
+                 <li><a href="https://developer.ibm.com/zh/newsletters/">IBM Developer 中文时事通讯</a></li>							</ul>
+							<p>如果您是通过 IBM Developer 上的链接到达这里的，请通过<a href="https://developer.ibm.com/zh/feedback">反馈页面</a>提交该损坏的链接报告，我们会立刻进行修复。请告诉我们您单击该链接时所在的页面。</p>
+							<p>很抱歉给您带来不便。感谢您使用 IBM Developer！</p>
+						</div>
+					</div>
+				</div>
+
+			</section><!-- .error-404 -->
+
+		</main><!-- #main -->
+	</div><!-- #primary -->
+
+</div>
+</div>
+</div>
+
+<div class="container_footer">
+	<footer role="contentinfo" aria-label="IBM Developer Footer">
+    		<!-- developer footer here -->
+		<div id="code-footer"class="code-footer">
+      <div class="ibm-logo">
+        <a href="//www.ibm.com/cn-zh">
+          <svg class="Footer-module--logo--3otJM" width="81" height="32" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><path d="M0 32h15.689v-2.038H0zM0 27.721h15.689v-2.038H0zM4.483 23.442h6.724v-2.037H4.483zM4.483 19.164h6.724v-2.038H4.483zM4.483 14.885h6.724v-2.037H4.483zM4.482 10.606h6.724V8.568H4.482zM0 6.327h15.689V4.29H0zM0 2.049h15.689V.011H0zM17.93 29.963V32h16.504a8.521 8.521 0 0 0 5.54-2.037H17.93zM17.93 25.683v2.038h23.914a8.535 8.535 0 0 0 .85-2.038H17.93zM22.412 23.442h6.724v-2.037h-6.724zM40.124 17.126H22.412v2.038H41.77a8.62 8.62 0 0 0-1.645-2.038M22.413 12.848v2.036h17.786a8.612 8.612 0 0 0 1.644-2.037h-19.43zM42.693 6.327a8.447 8.447 0 0 0-.85-2.037H17.93v2.037h24.763zM39.974 2.049a8.521 8.521 0 0 0-5.54-2.037H17.93v2.037h22.044zM22.412 10.606h6.724V8.568h-6.724zM35.453 10.606h7.29a8.603 8.603 0 0 0 .248-2.038h-7.538v2.038zM35.453 21.405v2.037h7.538c0-.703-.09-1.384-.248-2.037h-7.29zM57.457 0H44.825v2.038h13.34zM44.826 32h11.21v-2.038h-11.21zM44.826 27.72h11.21v-2.038h-11.21zM49.309 23.439h6.727v-2.038h-6.727zM49.309 19.159h6.727v-2.038h-6.727zM69.488 32h11.21v-2.038h-11.21zM69.488 27.72h11.21v-2.038h-11.21zM69.488 23.439h6.726v-2.038h-6.726zM69.487 19.159h6.726v-2.038h-6.726zM69.488 14.879h6.726V12.84H63.606l-.707 2.038h5.903l.686-1.94zM61.916 12.84H49.31v2.039h6.726v-1.94l.686 1.94h5.903zM76.213 8.56H65.091l-.707 2.038h11.83zM68.06 0l-.706 2.038h13.344V0zM62.757 32l.72-2.038h-1.432zM61.254 27.72h3.015l.72-2.038h-4.455zM59.743 23.44h6.037l.72-2.039h-7.476zM58.232 19.159h9.06l.719-2.038h-10.5zM49.309 10.598h11.83l-.707-2.038H49.309zM65.868 6.318h14.83V4.28H66.576zM58.947 4.28H44.826v2.038h14.828z"></path></g></svg>
+        </a>
+        <div class="slogan">
+          <a href="https://developer.ibm.com/zh">
+            <span>
+              <span>Build</span>
+              <span>Smart<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><polygon points="24.59 16.59 17 24.17 17 2 15 2 15 24.17 7.41 16.59 6 18 16 28 26 18 24.59 16.59"></polygon><title>Arrow down</title></svg></span>
+            </span>
+            <span>
+              <span>Build</span>
+              <span>Secure<svg focusable="false" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" style="will-change: transform;"><polygon points="16 4 6 14 7.41 15.41 15 7.83 15 30 17 30 17 7.83 24.59 15.41 26 14 16 4"></polygon><title>Arrow up</title></svg></span>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <div class="bx--grid">
+					<div class="bx--row">
+            <div class="bx--col-sm-2 bx--col-md-3 bx--col-lg-3">
+              <ul>
+                <li class="heading">IBM Developer</li>
+								<li><a href="/zh/about/">关于我们</a></li>
+                      <li><a href="/zh/feedback/">网站反馈 &amp; 常见问题</a></li>
+                      <li><a href="/zh/terms/third-party-notice/">第三方提示</a></li>							</ul>
+						</div>
+            <div class="bx--col-sm-2 bx--col-md-3 bx--col-lg-3">
+							<ul class="tr">
+                <li class="heading">关注我们</li>
+                <li><a href="/zh/contacts/">微信</a></li>
+                <li><a href="https://weibo.com/ibmdw/">微博</a></li>							</ul>
+						</div>
+            <div class="bx--col-sm-2 bx--col-md-3 bx--col-lg-3">
+							<ul>
+								<li class="heading">浏览</li>
+								 <li><a href="/zh/newsletters/">中文时事通讯</a></li>
+                  <li><a href="/zh/patterns/">Code Patterns</a></li>
+                  <li><a href="/zh/articles/">文章</a></li>
+                  <li><a href="/zh/tutorials/">教程</a></li>
+                 <li><a href="/zh/videos/">视频</a></li>
+                  <li><a href="/events/">活动</a></li>							</ul>
+						</div>
+						<div class="bx--col-sm-2 bx--col-md-3 bx--col-lg-3">
+              <ul class="tr">
+								<li class="heading">选择语言</li>
+								<li><a href="//developer.ibm.com/">English</a></li>
+                  <li><a href="/zh/">中文</a></li>
+                  <li><a href="/br/">Português</a></li>
+                  <li><a href="/es/">Español</a></li>
+                  <li><a href="//developer.ibm.com/kr/">한글</a></li>							</ul>
+						</div>
+					</div>
+				</div>
+      </div>
+    </div>
+    <!-- end of default footer -->
+    
+			<div class="code_content__wrap">
+
+			</div>
+		</div>
+		<!-- ibm footer here -->
+		<div aria-label="IBM Global Footer" class="dw-footer" id="dw-footer">
+			<div class="code_content__wrap">
+					<div class="dw-footer-corporate-links">
+							<ul>
+									<li><a href="/zh/community/">社区</a></li>
+                  <li><a href="//www.ibm.com/privacy/cn/zh/">隐私条约</a></li>
+                  <li><a href="//developer.ibm.com/zh/terms/ibm-developer-terms-of-use/">使用条款</a></li>
+                  <li><a href="//www.ibm.com/accessibility/cn/zh/"> 信息无障碍选项</a></li>									<li id="ibm-truste-cp"><a onclick="truste.eu.clickListener();return false;" href="#">Cookie 首选项</a></li>
+							</ul>
+					</div>
+					<div id="ibm-footer-locale-selector"></div>
+			</div>
+		</div>
+      </footer>
+</div>
+
+<div id="notificationDrawer"></div>
+
+<style>
+	#modal-k7naq0vevup .bx--modal-container,
+  #challengeModal  .bx--modal-container{
+		max-width: 980px !important;
+		padding:0 !important;
+		height: 75% !important;
+	}
+  #challengeModal  .bx--modal-container{
+    height: 90% !important;
+    max-height: 90% !important;
+    border-color: #41a8a5;
+  }
+	#modal-k7naq0vevup .bx--modal-content,
+  #challengeModal .bx--modal-content{
+		margin-bottom: 0;
+		height: 100%;
+	}
+	#modal-k7naq0vevup .bx--modal-container iframe,
+  #challengeModal .bx--modal-container iframe{
+		height:100%;
+	}
+</style>
+
+<div id="challengeModal">
+  <div id="challengeIframeWrap">
+    <div class="challenge--modal-header">
+      <button class="challenge--modal-close" type="button" data-modal-close aria-label="close modal"  data-modal-primary-focus>
+        <svg class="challenge--modal-close__icon" width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+          <title>Close Modal</title>
+          <path d="M6.32 5L10 8.68 8.68 10 5 6.32 1.32 10 0 8.68 3.68 5 0 1.32 1.32 0 5 3.68 8.68 0 10 1.32 6.32 5z" fill-rule="nonzero"/>
+        </svg>
+      </button>
+    </div>
+    <div class="challenge--modal-content">
+      <iframe id="challengeIframe" src="about:blank" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+</div>
+
+</div><!-- #page -->
+
+<script defer type='text/javascript' src='https://developer.ibm.com/zh/site-content/themes/ibmdeveloper-carbon/js/navigation.js?ver=20151217' id='lucio-navigation-defer-js'></script>
+<script type='text/javascript' src='https://developer.ibm.com/zh/site-content/plugins/page-links-to/dist/new-tab.js?ver=3.3.3' id='page-links-to-js'></script>
+<script type='text/javascript' src='https://developer.ibm.com/zh/wp-includes/js/wp-embed.min.js?ver=5.6.1' id='wp-embed-js'></script>
+<script>
+        var translateCodeBlocks = function(){
+          var codeCopyBtns = document.querySelectorAll(".bx--snippet-button .bx--btn--copy__feedback");
+          var codeExpandBtns = document.querySelectorAll(".bx--snippet-btn--expand .bx--snippet-btn--text");
+          if(codeCopyBtns.length){
+            codeCopyBtns.forEach(function(item, index) {
+              item.setAttribute("data-feedback","已复制！");
+            });
+          }
+          if(codeExpandBtns.length){
+            codeExpandBtns.forEach(function(item, index) {
+              item.innerHTML = "显示更多";
+              item.setAttribute("data-show-more-text","显示更多");
+              item.setAttribute("data-show-less-text","显示较少");
+            });
+          }
+        }
+        if ( document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll) ) {
+          translateCodeBlocks();
+        } else {
+          document.addEventListener("DOMContentLoaded", translateCodeBlocks);
+        }
+      </script><script>
+	var $searchTrigger = document.getElementById('header-search-module'),
+      $modalInstance = undefined,
+      $developerBurger = document.getElementById('developer-burger'),
+      $codeSideNav = document.getElementById('developerNavTriggersMobile'),
+      $codeSideNavCover = document.getElementById('code--side-nav-cover'),
+      $announcementClose = document.getElementById('announcement_close'),
+      $notificationDrawer = document.getElementById('notificationDrawer');
+
+      if($notificationDrawer != null){
+        $notificationDrawer.addEventListener('click', function(event) {
+          event.preventDefault();
+          $btn = ibmcode.getClosest(event.target, 'button');
+          if( $btn && $btn.classList.contains('bx--toast-notification__close-button') ){
+            ibmcode.getClosest($btn, 'div.bx--toast-notification').remove();
+          }
+        });
+      }
+
+
+  if($announcementClose != null){
+    $announcementClose.addEventListener('click', function(event) {
+      $elm = document.getElementById('code_announcement');
+      $elm.parentNode.removeChild($elm);
+      //document.body.classList.remove('no-fixed-menu');
+      ibmcode.setCookie('Code_Annouce_Closed','true',0);
+    });
+  }
+
+	if($searchTrigger != null){ //this can be way more efficient
+		$searchTrigger.addEventListener('click', function(event) {
+      $btn = ibmcode.getClosest(event.target, 'button');
+      if( $btn && $btn.classList.contains('GlobalSearch-module--search-button--search') ){
+        if($searchTrigger.querySelector('input[type="text"]').value.trim() != "" && !($searchTrigger.classList.contains('GlobalSearch-module--hidden')) ){
+          $searchTrigger.querySelector('form').submit();
+        }
+        $searchTrigger.classList.remove('GlobalSearch-module--hidden');
+        $searchTrigger.querySelector('input[type="text"]').focus();
+        $searchTrigger.querySelector('.GlobalSearch-module--search-button--close').classList.remove('GlobalSearch-module--hidden');
+      }else if( $btn && $btn.classList.contains('GlobalSearch-module--search-button--close') ){
+        $searchTrigger.classList.add('GlobalSearch-module--hidden');
+        $searchTrigger.querySelector('input[type="text"]').value= "";
+        $searchTrigger.querySelector('.GlobalSearch-module--search-button--close').classList.add('GlobalSearch-module--hidden');
+      }
+			// window.location.href = 'https://developer.ibm.com/zh?s=';
+		});
+	}
+
+  if($developerBurger != null && $codeSideNavCover != null && $codeSideNav != null){
+		$developerBurger.addEventListener('click', function(event) {
+      //bx--side-nav--expanded
+      if( document.body.classList.contains('bx--side-nav--opened') ){
+        document.body.classList.remove('bx--side-nav--opened');
+      }else{
+        document.body.classList.add('bx--side-nav--opened');
+      }
+		});
+    $codeSideNavCover.addEventListener('click', function(event) {
+      //bx--side-nav--expanded
+      if( document.body.classList.contains('bx--side-nav--opened') ){
+        document.body.classList.remove('bx--side-nav--opened');
+      }else{
+        document.body.classList.add('bx--side-nav--opened');
+      }
+		});
+    $codeSideNav.addEventListener('click', function(event) {
+      //bx--side-nav--expanded
+      $letsFix = event.target.closest('.bx--side-nav__submenu');
+      if($letsFix){
+        if($letsFix.classList.contains('noclick')){
+          return;
+        }
+        if($letsFix.getAttribute("aria-expanded") === 'false'){
+          $letsFix.setAttribute("aria-expanded", "true");
+        }else{
+          $letsFix.setAttribute("aria-expanded", "false");
+        }
+      }
+		});
+	}
+
+
+	$codeLeftNav = document.getElementById('code--side-nav');
+	if($codeLeftNav != null){
+		$codeLeftNav.addEventListener('click', function(event) {
+      event.preventDefault();
+			var menuDropDown = event.target.closest('button.bx--side-nav__submenu');
+      if(menuDropDown){
+        if(menuDropDown.classList.contains('noclick')){
+          return;
+        }
+        if(menuDropDown.getAttribute("aria-expanded") === 'false'){
+          menuDropDown.setAttribute("aria-expanded", "true");
+        }else{
+          menuDropDown.setAttribute("aria-expanded", "false");
+        }
+      }
+		});
+	}
+  var openMenuItem = null;
+  var openSearch = null;
+	document.addEventListener('click', function (event) {
+    //are we clicking on a link leaving the site?
+    // if(event.target.tagName.toLowerCase() === 'a'){
+    //   var patt = new RegExp(/(?<!ibm|redhat)\.(?:com|biz|org)/g);
+    //   var res = patt.test(event.target.href);
+    //   if(res){
+    //     //we need to rewrite the url to the ibm redirect page
+    //     event.target.href = 'https://www.ibm.com/links?url=' + event.target.href;
+    //   }
+    // }
+
+    //we need a click event here to close the search if its open and there is a
+    if(openMenuItem != event.target){
+      if(openMenuItem != null){
+        openMenuItem.setAttribute("aria-expanded", "false");
+        openMenuItem = null;
+      }
+    }
+
+    // console.info(event);
+		if ( event.target.classList.contains('bx--snippet__icon') ) {
+			// Get the parent with the `.accordion` class
+			var parentBtn = ibmcode.getClosest(event.target, '.bx--snippet-button');
+			var codeBlock = parentBtn.previousElementSibling.querySelectorAll('code');
+			if(codeBlock[0]){
+				ibmcode.copyText(codeBlock[0]);
+			}
+		}
+    if ( ibmcode.getClosest(event.target, '.bx--header__menu-title') ) {
+      event.preventDefault();
+      var newTarg = ibmcode.getClosest(event.target, '.bx--header__menu-title');
+      if(newTarg === openMenuItem && openMenuItem != null){
+        openMenuItem.setAttribute("aria-expanded", "false");
+        openMenuItem = null;
+        return
+      }
+      openMenuItem = newTarg;
+      openMenuItem.setAttribute("aria-expanded", "true");
+    }
+
+    if ( ibmcode.getClosest(event.target, '.GlobalLogin-module--container') ) {
+      if(event.target.className === 'bx--header__menu-item'){
+        return;
+      }
+      event.preventDefault();
+      var newTarg = ibmcode.getClosest(event.target, '.GlobalLogin-module--container');
+      if(newTarg === openMenuItem && openMenuItem != null){
+        openMenuItem.setAttribute("aria-expanded", "false");
+        openMenuItem = null;
+        return;
+      }
+      openMenuItem = newTarg;
+      openMenuItem.setAttribute("aria-expanded", "true");
+    }
+
+
+
+    if(event.target.id === "challengeModal" || event.target.classList.contains('challenge--modal-close') || event.target.closest('.challenge--modal-close')){
+      toggleChallengeModal('',true);
+      return;
+    }
+    //we clicked on a challenge and we need to trigger the modal for taking it
+    if ( event.target.closest('.developer--card.ibmcode_challenges.loggedin') ) {
+      event.preventDefault();
+      $challengeURL = event.target.closest('.developer--card.ibmcode_challenges.loggedin').querySelector('.developer--card__block_link').href;
+      toggleChallengeModal($challengeURL);
+		}
+    //we clicked on a card that wants to display in a modal
+    if ( event.target.closest('.developer--card.modal') ) {
+      event.preventDefault();
+      console.info(event.target);
+      $challengeURL = event.target.closest('.developer--card.modal').querySelector('.developer--card__block_link').href;
+      toggleChallengeModal($challengeURL);
+		}
+	}, false);
+
+
+  function set_size($size){
+    document.querySelector('#challengeIframeWrap .challenge--modal-content').style.height = $size;
+  }
+
+  function toggleChallengeModal($challengeURL,$close,$completedChallenge){
+    if($close === true){
+      document.body.classList.remove("showing-modal");
+      $iFrame = document.getElementById('challengeIframe');
+      $iFrame.src = 'about:blank';
+    }else{
+      $challengeModal = document.getElementById('challengeModal');
+      $iFrame = document.getElementById('challengeIframe');
+      // $iFrameHeight = $iFrame.contentWindow.document.body.offsetHeight;
+      $iFrame.src = $challengeURL;
+      document.body.classList.add("showing-modal");
+    }
+    if(typeof($completedChallenge) === "string"){
+      var completedChallengeCards = document.querySelectorAll('a[href="/challenges/'+$completedChallenge+'/"]');
+      for (var i = 0; i < completedChallengeCards.length; i++) {
+        completedChallengeCards[i].parentNode.classList.add('completed');
+      }
+    }
+  }
+
+
+  var domReadyCallback = function(){
+    //change all external links on a page to go to the ibm warning page
+
+    // Handler when the DOM is fully loaded
+    //handling the loazy load
+    var lazyloadCardImages,
+        lazyloadContentImages;
+
+    if ("IntersectionObserver" in window) {
+      //this will handle the card background images styled by css
+      lazyloadCardImages = document.querySelectorAll(".lazycards");
+      var imageCardObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var image = entry.target;
+            image.classList.remove("lazycards");
+            imageCardObserver.unobserve(image);
+          }
+        });
+      });
+      lazyloadCardImages.forEach(function(image) {
+        imageCardObserver.observe(image);
+      });
+      //this will handle the images used in the body of our content types
+      lazyloadContentImages = document.querySelectorAll(".lazycontent");
+      var imageContentObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            var image = entry.target;
+            image.src = image.dataset.src;
+            image.classList.remove("lazycontent");
+            imageContentObserver.unobserve(image);
+          }
+        });
+      });
+
+      lazyloadContentImages.forEach(function(image) {
+        imageContentObserver.observe(image);
+      });
+    }
+
+    //function that runs to set the same height of card elements
+
+    setTimeout(function() {
+      $sameHeightWidgets = document.querySelectorAll('[data-widget="setsameheight"]');
+      ibmcode.widgetSetSameHeight($sameHeightWidgets,true);
+    }, 250);
+    var resizeTimer;
+    ibmcode.addEvent(window,'resize',function(){
+      clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function() {
+          ibmcode.widgetSetSameHeight($sameHeightWidgets,true);
+        }, 250);
+    });
+
+
+    //this javascript needs to get added to the page only when a user is logged in and auth is true
+
+  };
+
+  if ( document.readyState === "complete" || (document.readyState !== "loading" && !document.documentElement.doScroll) ) {
+    domReadyCallback();
+  } else {
+    document.addEventListener("DOMContentLoaded", domReadyCallback);
+  }
+
+
+  /* adding functions to handle sending in favoriting */
+  // ibmcode.postAjax = function(url, data, callback)
+
+</script>
+
+
+</body>
+</html>
